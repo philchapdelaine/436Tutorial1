@@ -6,7 +6,7 @@ d3.csv('data/cities_and_population.csv')
 
     d3.select('body')
 	.append('p')
-	.text(`There are ${count} countries`);
+	.text(`There are ${count} cities.`);
 
     filteredCities.forEach(city => {
         city.population = +city.population;
@@ -25,7 +25,7 @@ d3.csv('data/cities_and_population.csv')
     .enter()
     .append('circle')
     .attr('r', d => {
-        if (d.population < 1000000 ){
+        if (d.population < 1000000){
             return 4;
         } else {
             return 8;
@@ -34,7 +34,22 @@ d3.csv('data/cities_and_population.csv')
     .attr('fill', 'blue')
     .attr('stroke', 'black')
     .attr('cx', d => d.x)
-    .attr('cy', d => d.y);
+    .attr('cy', d => d.y)
+
+    svg.selectAll('city-label')
+    .data(filteredCities)
+    .enter()
+    .append('text')
+    .text(d => d.city)
+    .attr('opacity', d => {
+        if (d.population < 1000000) {
+            return 0;
+        } else {
+            return 100;
+        }
+    })
+    .attr('x', d => d.x)
+    .attr('y', d => d.y)
 
 })
 .catch(error => {
